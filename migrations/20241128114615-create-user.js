@@ -24,7 +24,7 @@ module.exports = {
       vendor: {
         type: Sequelize.BOOLEAN
       },
-      pass: {
+      password: {
         type: Sequelize.STRING
       },
       createdAt: {

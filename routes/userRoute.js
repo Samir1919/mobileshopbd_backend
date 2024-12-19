@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
-// Model (assuming you're using Mongoose)
-const User = require('../models/user');
 // jwt auth
 var auth = require('../middleware/auth');
+// Model
+const User = require('../models/user');
 
 // Create a new user
 router.post('/', auth.refreshAuthenticateUser, async (req, res) => {
@@ -15,7 +14,7 @@ router.post('/', auth.refreshAuthenticateUser, async (req, res) => {
         phone: req.body.phone,
         isAdmin: req.body.isAdmin,
         vendor: req.body.vendor,
-        pass: req.body.pass
+        password: req.body.password
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
@@ -47,6 +46,18 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// const user = await User.findOne({ where: { email } });
+// const hashedPassword = user.password;
+// const providedPassword = 'userProvidedPassword';
+
+// const hashedProvidedPassword = crypto.SHA256(providedPassword).toString();
+
+// if (hashedProvidedPassword === hashedPassword) {
+//     // Password matches
+// } else {
+//     // Password mismatch
+// }
 
 // Update a user
 router.put('/:id', async (req, res) => {
