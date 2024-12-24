@@ -8,6 +8,9 @@ const config = require('./config/database');
 const sequelize = new Sequelize(config.development);
 const session = require('express-session');
 
+const Category = require('./models/Category');
+const Product = require('./models/Product');
+
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -26,6 +29,8 @@ app
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "/static")));
+app.use(express.static(path.join(__dirname, "/uploads")));
+
 
 // maybe for frontend
 // const cors = require('cors');
@@ -41,14 +46,7 @@ app.use(session({
   cookie: { secure: false } // Set to true for HTTPS connections
 }));
 
-
-// Sync the database
-sequelize.sync()
-  .then(() => {
-    console.log('Database synced successfully');
-  })
-  .catch(error => console.error('Error syncing database:', error));
-
+// Route
 app.get("/", (req, res) => {
   res.render("pages/pricing", {
     layout: path.join(__dirname, "/layouts/main"),
@@ -80,6 +78,16 @@ app.use('/product', require('./routes/productRoute'));
 //     console.error('Error creating table:', err);
 //   });
 
+// orm
+Category.hasMany(Product);
+Product.belongsTo(Category);
+
+// Sync the database
+sequelize.sync()
+  .then(() => {
+    console.log('Database synced successfully');
+  })
+  .catch(error => console.error('Error syncing database:', error));
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
