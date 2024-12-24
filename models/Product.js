@@ -12,28 +12,37 @@ const Product = sequelize.define(
       type: DataTypes.BIGINT,
       allowNull: false,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     price: {
       type: DataTypes.DOUBLE,
-      allowNull: false
+      allowNull: false,
     },
     imageUrl: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
+      type: DataTypes.STRING, // Single image URL
+      allowNull: true, // Allow null in case there's no image
+    },
+    categoryId: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
   },
   {
     sequelize,
     modelName: 'Product',
-  });
+  }
+);
+
+// Optional: Define associations
+// Category.hasMany(Product);
+// Product.belongsTo(Category);
 
 module.exports = Product;
