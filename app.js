@@ -29,7 +29,7 @@ app
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "/static")));
-app.use(express.static(path.join(__dirname, "/uploads")));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // maybe for frontend

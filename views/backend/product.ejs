@@ -148,7 +148,7 @@ group: crud
                             </th>
                             <th scope="col"
                                 class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Discount
+                                Category Name
                             </th>
                             <th scope="col"
                                 class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
@@ -197,7 +197,7 @@ group: crud
                                     </td>
                                     <td
                                         class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <%= product.discount %>
+                                        <%= product.Category ? product.Category.name : 'Uncategorized' %>
                                     </td>
 
                                     <td class="p-4 space-x-2 whitespace-nowrap">
@@ -427,7 +427,7 @@ group: crud
         </svg>
         <span class="sr-only">Close menu</span>
     </button>
-    <form action="#">
+    <form action="/product" method="POST" enctype="multipart/form-data">
         <div class="space-y-4">
             <div>
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -444,36 +444,32 @@ group: crud
             </div>
             <div>
                 <label for="category-create"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technology</label>
-                <select id="category-create"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                <select id="category-create" name="categoryId"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                     <option selected="">Select category</option>
-                    <option value="FL">Flowbite</option>
-                    <option value="RE">React</option>
-                    <option value="AN">Angular</option>
-                    <option value="VU">Vue</option>
+                    <% for (let i=0; i < categories.length; i++) { %>
+                        <% const category=categories[i]; %>
+                            <option value='<%= category.id %>'>
+                                <%= category.name %>
+                            </option>
+                            <% } %>
                 </select>
             </div>
             <div>
                 <label for="description"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                <textarea id="description" rows="4"
+                <textarea id="description" rows="4" name="description"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Enter event description here"></textarea>
             </div>
             <div>
-                <label for="discount-create"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Discount</label>
-                <select id="discount-create"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected="">No</option>
-                    <option value="5">5%</option>
-                    <option value="10">10%</option>
-                    <option value="20">20%</option>
-                    <option value="30">30%</option>
-                    <option value="40">40%</option>
-                    <option value="50">50%</option>
-                </select>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload
+                    image</label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="user_avatar_help" id="user_avatar" name="image" type="file">
+
             </div>
             <div class="bottom-0 left-0 flex justify-center w-full pb-4 space-x-4 md:px-4 md:absolute">
                 <button type="submit"

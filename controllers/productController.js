@@ -12,6 +12,7 @@ exports.getProduct = async (req, res) => {
                 model: Category
             }
         });
+        const categories = await Category.findAll();
 
         if (acceptHeader.includes('text/html')) {
             // Render HTML page with products
@@ -20,10 +21,11 @@ exports.getProduct = async (req, res) => {
                 navigation: true,
                 footer: true,
                 products,
+                categories
             });
         } else {
             // Return API response with products
-            res.status(200).json(products);
+            res.status(200).json({ products, categories });
         }
     } catch (error) {
         console.error(error);
@@ -42,7 +44,7 @@ exports.postProduct = async (req, res) => {
             title: req.body.title,
             description: req.body.description,
             price: req.body.price,
-            imageUrl, // Use the uploaded image URL
+            imageUrl: imageUrl, // Use the uploaded image URL
             categoryId: req.body.categoryId
         });
 
