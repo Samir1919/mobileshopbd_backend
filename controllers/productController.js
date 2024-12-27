@@ -4,7 +4,7 @@ const Product = require('../models/Product');
 const Category = require('../models/Category');
 
 exports.getProduct = async (req, res) => {
-    const acceptHeader = req.headers['accept'];
+    const acceptHeader = req.headers['accept'] || ''; // Default to an empty string if undefined
     try {
         // Fetch products including related categories
         const products = await Product.findAll({
@@ -32,6 +32,7 @@ exports.getProduct = async (req, res) => {
         res.status(500).send('Server error');
     }
 };
+
 
 exports.postProduct = async (req, res) => {
     const acceptHeader = req.headers['accept'];
