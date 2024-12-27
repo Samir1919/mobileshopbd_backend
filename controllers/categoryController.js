@@ -3,7 +3,7 @@ const path = require('path');
 const Category = require('../models/Category');
 
 exports.getCategory = async (req, res) => {
-    const acceptHeader = req.headers['accept'];
+    const acceptHeader = req.headers['accept'] || '';
     let products = await Category.findAll();
     try {
         if (acceptHeader.includes('text/html')) {
