@@ -201,11 +201,17 @@ group: crud
                                     </td>
 
                                     <td class="p-4 space-x-2 whitespace-nowrap">
-                                        <button type="button" id="updateProductButton"
+                                        <button type="button" id="updateProductButton" data-id="<%= product.id %>"
+                                            data-title="<%= product.title %>" data-price="<%= product.price %>"
+                                            data-description="<%= product.description %>"
+                                            data-category="<%= product.categoryId %>" onclick="openUpdateDrawer(this)"
                                             data-drawer-target="drawer-update-product-default"
                                             data-drawer-show="drawer-update-product-default"
                                             aria-controls="drawer-update-product-default" data-drawer-placement="right"
-                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center
+                                        text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4
+                                        focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700
+                                        dark:focus:ring-primary-800">
                                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -306,51 +312,49 @@ group: crud
         </svg>
         <span class="sr-only">Close menu</span>
     </button>
-    <form action="#">
+    <form id="updateForm" action="" method="POST" enctype="multipart/form-data">
         <div class="space-y-4">
             <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" name="title" id="name"
+                <label for="update-name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                <input type="text" name="title" id="update-name"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value="Education Dashboard" placeholder="Type product name" required="">
+                    placeholder="Type product name" required="">
             </div>
             <div>
-                <label for="category"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Technology</label>
-                <select id="category"
+                <label for="update-category"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                <select id="update-category" name="categoryId"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected="">Flowbite</option>
-                    <option value="RE">React</option>
-                    <option value="AN">Angular</option>
-                    <option value="VU">Vue JS</option>
+                    <% for (let i=0; i < categories.length; i++) { %>
+                        <% const category=categories[i]; %>
+                            <option value='<%= category.id %>'>
+                                <%= category.name %>
+                            </option>
+                            <% } %>
                 </select>
             </div>
             <div>
-                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                <input type="number" name="price" id="price"
+                <label for="update-price"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                <input type="number" name="price" id="update-price"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    value="2999" placeholder="$149" required="">
+                    placeholder="100" required="">
             </div>
             <div>
-                <label for="description"
+                <label for="update-description"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                <textarea id="description" rows="4"
+                <textarea id="update-description" rows="4" name="description"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Enter event description here">Start developing with an open-source library of over 450+ UI components, sections, and pages built with the utility classes from Tailwind CSS and designed in Figma.</textarea>
+                    placeholder="Enter event description here" required="">?</textarea>
             </div>
+            <!-- Add image upload option -->
             <div>
-                <label for="discount"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Discount</label>
-                <select id="discount"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected="">No</option>
-                    <option value="5">5%</option>
-                    <option value="10">10%</option>
-                    <option value="20">20%</option>
-                    <option value="30">30%</option>
-                    <option value="40">40%</option>
-                    <option value="50">50%</option>
-                </select>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="product_image">Upload
+                    image</label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="product_image_help" id="product_image" name="image" type="file">
             </div>
         </div>
         <div class="bottom-0 left-0 flex justify-center w-full pb-4 mt-4 space-x-4 sm:absolute sm:px-4 sm:mt-0">
@@ -358,7 +362,7 @@ group: crud
                 class="w-full justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                 Update
             </button>
-            <button type="button"
+            <button type="button" data-drawer-dismiss="drawer-update-product-default"
                 class="w-full justify-center text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                 <svg aria-hidden="true" class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
@@ -491,16 +495,37 @@ group: crud
 </div>
 
 <script>
+
+    function openUpdateDrawer(button) {
+        // Get data attributes from the clicked button
+        const productId = button.getAttribute('data-id');
+        const title = button.getAttribute('data-title');
+        const price = button.getAttribute('data-price');
+        const description = button.getAttribute('data-description');
+        const category = button.getAttribute('data-category');
+
+        // Populate the form fields in the drawer
+        document.getElementById('update-name').value = title;
+        document.getElementById('update-price').value = price;
+        document.getElementById('update-description').value = description;
+        document.getElementById('update-category').value = category;
+
+        // Optionally, update the form's action URL with the product ID
+        const updateForm = document.getElementById('updateForm');
+        updateForm.action = `/product/${productId}`;
+
+    }
+
     async function dataFunctions(data) {
         console.log("dataFunctions data:", data);
         if (data) {
-            await changeUrl(data);
+            await delete_Url(data);
         } else {
             console.error("Data is not available.");
         }
     }
 
-    async function changeUrl(data) {
+    async function delete_Url(data) {
         console.log("changeUrl data:", data);
 
         if (data) {

@@ -36,8 +36,7 @@ const upload = multer({
 // Routes
 router.get('/', productController.getProduct); // Get all products
 router.post('/', upload.single('image'), productController.postProduct); // Create product with single image upload
-// Add the route for editing a product
-router.put('/:id', upload.single('image'), productController.editProduct); // PUT route for editing a product
+router.post('/:id', upload.single('image'), productController.editProduct); // PUT route for editing a product
 router.get('/:id', productController.deleteProduct); // Delete a product by ID
 
 module.exports = router;
